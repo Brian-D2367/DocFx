@@ -1,0 +1,22 @@
+{
+  "Docs/Articles/getting-started.html": {
+    "href": "Docs/Articles/getting-started.html",
+    "title": "Getting Started | Help",
+    "keywords": "Getting Started"
+  },
+  "Docs/Articles/introduction.html": {
+    "href": "Docs/Articles/introduction.html",
+    "title": "Introduction | Help",
+    "keywords": "Introduction"
+  },
+  "README.html": {
+    "href": "README.html",
+    "title": "DocFx | Help",
+    "keywords": "DocFx"
+  },
+  "index.html": {
+    "href": "index.html",
+    "title": "This is the HOMEPAGE. | Help",
+    "keywords": "This is the HOMEPAGE. Refer to Markdown for how to write markdown files. Quick Start Notes: Add images to the images folder if the file is referencing an image."
+  }
+}
