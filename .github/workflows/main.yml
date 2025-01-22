@@ -1,73 +1,23 @@
-name: CI
-
+# Your GitHub workflow file under .github/workflows/
+# Trigger the action on push to main
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   actions: read
   pages: write
   id-token: write
-  
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Check out the code
-      uses: actions/checkout@v2
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '8.0.x'
-
-    - name: Install dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Pack
-      run: dotnet pack --configuration Release --no-build
-
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && contains(github.ref, 'refs/heads/master')
-
-    steps:
-    - name: Check out the code
-      uses: actions/checkout@v2
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '8.0.x'
-
-    - name: Install dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Pack
-      run: dotnet pack --configuration Release --no-build
-      
-    - name: Publish to GitHub Packages
-      run: dotnet nuget push CliNet/bin/Release/*.nupkg --source "https://nuget.pkg.github.com/fabiosalomaosilva/index.json" --api-key ${{ secrets.TOKEN_CI }}
   
+jobs:
   publish-docs:
     environment:
       name: github-pages
@@ -82,11 +32,12 @@ jobs:
         dotnet-version: 8.x
 
     - run: dotnet tool update -g docfx
-    - run: docfx docfx.json
+    - run: docfx build
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
+        # Upload entire repository
         path: '_site'
     - name: Deploy to GitHub Pages
       id: deployment
